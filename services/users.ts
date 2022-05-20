@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-import { faker } from "@faker-js/faker";
+import { PrismaClient } from '@prisma/client';
+import { faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();
 
@@ -7,14 +7,13 @@ export async function createUserPrisma() {
   try {
     const user = await prisma.user.create({
       data: {
-        email: "test1@test.fr",
-        password: "123456",
-        username: "test",
-        role: "tester",
+        email: 'test1@test.fr',
+        password: '123456',
+        username: 'test',
+        role: 'tester',
       },
     });
   } catch (error: any) {
-    console.log(error);
     throw new Error(error);
   }
 }
@@ -24,14 +23,14 @@ export async function getUsersPrisma() {
   try {
     users = await prisma.user.findMany();
   } catch (error: any) {
-    console.log(error);
-    throw new Error(error);
+    throw new Error(error.message);
   } finally {
     return users;
   }
 }
 export async function createManyUsersPrisma(numberOfUsers: number) {
   try {
+    let users: any;
     for (let i = 0; i < numberOfUsers; i++) {
       const users = await prisma.user.create({
         data: {
@@ -49,5 +48,20 @@ export async function createManyUsersPrisma(numberOfUsers: number) {
     }
   } catch (error: any) {
     throw new Error(error);
+  }
+}
+
+export async function getUniqueUserPrisma(id: number) {
+  let user;
+  try {
+    user = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+  } catch (error: any) {
+    throw new Error(error.message);
+  } finally {
+    return user;
   }
 }

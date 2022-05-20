@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import {
   createUserPrisma,
   getUsersPrisma,
-  createManyUsersPrisma,
+  createManyUsersPrisma,getUniqueUserPrisma
 } from "../services/users";
 
 export async function createUser(req: Request, res: Response) {
@@ -56,5 +56,19 @@ export async function getAllUsers(req: Request, res: Response) {
     });
   } finally {
     return users;
+  }
+}
+export async function getUniqueUser(req: Request, res:Response, id: number){
+  try{
+  const user = await getUniqueUserPrisma(id);
+  res.status(200).send({
+    message: "Utilisateur n°" +id,
+    user:user,
+  });
+
+  }catch (error:any) {
+    res.status(400).send({
+      message: error.message,
+    })
   }
 }

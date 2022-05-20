@@ -3,7 +3,8 @@ import {
   createUser,
   getAllUsers,
   createManyUsers,
-} from "./../../controllers/users";
+  getUniqueUser,
+} from './../../controllers/users';
 
 function openRoutes(app: Express) {
   app.get("/", (req: Request, res: Response) => {
@@ -22,5 +23,9 @@ function openRoutes(app: Express) {
     const numberOfUsers = Number(req.params.numberOfUsers);
     createManyUsers(req, res, numberOfUsers);
   });
+  app.get('/user/:id',(req:Request, res: Response)=>{
+    const id = Number(req.params.id);
+    getUniqueUser(req,res,id);
+  })
 }
 export default openRoutes;
